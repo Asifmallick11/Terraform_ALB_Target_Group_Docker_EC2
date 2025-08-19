@@ -14,3 +14,28 @@ variable "secret_key" {
     type = string
     sensitive = true
 }
+
+variable "ami_id" {
+  description = "AMI-Id"
+  type = string
+}
+
+variable "instance_type" {
+  description = "Instance Type"
+  type = string
+}
+
+variable "instance_name" {
+  description = "Instance Name"
+  type = string 
+}
+
+variable "public_key" {
+  description = "Public Key"
+  type = string
+}
+
+variable "private_key" {
+  description = "Private Key"
+  type = string
+}
