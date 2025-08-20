@@ -181,7 +181,7 @@ resource "aws_lb_target_group_attachment" "app-attachment" {
   count = 2
   target_group_arn = aws_lb_target_group.alb_tg.id
   target_id = aws_instance.app[count.index].id 
-  port = 3000  
+  port = 80
 }
 
 resource "aws_lb_listener" "app-listner" {
