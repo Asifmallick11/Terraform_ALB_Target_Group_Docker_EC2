@@ -76,18 +76,18 @@ resource "aws_route_table_association" "b" {
 resource "aws_security_group" "alb_sg" {
   vpc_id = aws_vpc.main.id 
 
-   ingress = {
+   ingress {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    cidr_block = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"]
    }
 
-   egress = {
+   egress {
     from_port = 0
     to_port = 0
     protocol = "-1"
-    cidr_block = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"]
    }
   
 }
@@ -96,16 +96,23 @@ resource "aws_security_group" "ec2_sg" {
   vpc_id = aws_vpc.main.id
 
     ingress {
-    from_port = 3000
-    to_port = 3000
+    from_port = 80
+    to_port = 80
     protocol = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
    }
 
+  #   ingress {
+  #   from_port = 3000
+  #   to_port = 3000
+  #   protocol = "tcp"
+  #   security_groups = [aws_security_group.alb_sg.id]
+  #  }
+
    ingress {
     from_port = 22
     to_port = 22 
-    protocol = tcp
+    protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
    }
 
@@ -132,7 +139,7 @@ resource "aws_instance" "ec2-app" {
   #!/bin/bash
   yes | sudo apt update
   yes | sudo apt install apache2
-  echo "<h1>Server Details</h1><p><strong>Hostname:</strong>$(hostname)</p><p><strong>IP Address:</strong>$(hostname -l | cut -d" "-f1)</p>" > /var/www/html.index.html
+  echo "<h1>Server Details</h1><p><strong>Hostname:</strong>$(hostname)</p><p><strong>IP Address:</strong>$(hostname -l | cut -d" "-f1)</p>" > /var/www/html/index.html
   sudo systemctl restart apache2
 EOF
 
