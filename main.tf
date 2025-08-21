@@ -139,7 +139,8 @@ resource "aws_instance" "ec2-app" {
   #!/bin/bash
   yes | sudo apt update
   yes | sudo apt install apache2
-  echo "<h1>Server Details</h1><p><strong>Hostname:</strong>$(hostname)</p><p><strong>IP Address:</strong>$(hostname -l | cut -d" "-f1)</p>" > /var/www/html/index.html
+  echo "<h1>Server Details</h1><p><strong>Hostname:</strong>$(hostname)</p><p><strong>IP Address:</strong>$(hostname -I | cut -d" "-f1)</p>" > /var/www/html/index.html
+  sudo systemctl enable apache2
   sudo systemctl restart apache2
 EOF
 
@@ -179,7 +180,7 @@ resource "aws_lb_target_group" "alb_tg" {
 
 resource "aws_lb_target_group_attachment" "app-attachment" {
   count = 2
-  target_group_arn = aws_lb_target_group.alb_tg.id
+  target_group_arn = aws_lb_target_group.alb_tg.arn
   target_id = aws_instance.ec2-app[count.index].id 
   port = 80
 }
