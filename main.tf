@@ -52,7 +52,7 @@ resource "aws_route_table" "public" {
 
     vpc_id = aws_vpc.main.id
     
-    route = {
+    route {
         cidr_block = "0.0.0.0/0" 
         gateway_id = aws_internet_gateway.gw.id
     }
@@ -180,7 +180,7 @@ resource "aws_lb_target_group" "alb_tg" {
 resource "aws_lb_target_group_attachment" "app-attachment" {
   count = 2
   target_group_arn = aws_lb_target_group.alb_tg.id
-  target_id = aws_instance.app[count.index].id 
+  target_id = aws_instance.ec2-app[count.index].id 
   port = 80
 }
 
