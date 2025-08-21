@@ -161,7 +161,7 @@ resource "aws_lb" "applb" {
 
 resource "aws_lb_target_group" "alb_tg" {
   name     = "apache2-tg"
-  port     = 3000
+  port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
 
